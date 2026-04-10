@@ -1,0 +1,79 @@
+server:
+  forward-headers-strategy: native
+  tomcat:
+    use-relative-redirects: true
+    remoteip:
+      host-header: X-Forwarded-For
+      protocol-header: X-Forwarded-Proto
+      port-header: X-Forwarded-Port
+  port: 8008
+spring:
+  sql:
+    init:
+      mode: always
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8008
+  servlet:
+    multipart:
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+      enabled: true
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost:5432}/april2026java
+    username: ${POSTGRES_UNAME:postgres}
+    password: ${POSTGRES_PWD:postgres}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 3000
+      connection-timeout: 30000
+      idle-timeout: 10000
+      max-lifetime: 30000
+      leak-detection-threshold: 20000
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    properties:
+      format_sql: true
+  flyway:
+    baseline-on-migrate: false
+    enabled: false
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: false
+  mapper-locations: classpath:mapper/**/*.xml
+
+rsa:
+  private-key: classpath:certificates/private-key-new.pem
+  public-key: classpath:certificates/public-key-new.pem
+
+custom:
+  public-url: http://localhost:8008
+
+logging:
+  level:
+    org:
+      springframework:
+        security: ERROR
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: beans
+file:
+  storage:
+    location: /home/administrator/Downloads/inventory_file
+    path: D://something
+
+eems:
+  encryption:
+    properties:
+      key: skbgsjdbvsdbksjg
+      initVector: ksjdbnvcbgurjgkd
+      transformation: AES/CBC/PKCS5Padding

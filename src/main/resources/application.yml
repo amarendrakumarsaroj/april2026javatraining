@@ -1,0 +1,7 @@
+server:
+  port: 8008
+spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+  application:
+    name: april2026java
